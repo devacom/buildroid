@@ -110,7 +110,6 @@ buildhttp2 ()
 buildlibusb ()
 {
       echo "libusb Android Build Tool"
-      echo "This tool still under revision for more info contact @devacom"
       read -p "Please enter LibUSB source code location: " fpath
       cd $fpath
       echo "configuring libusb for android..."
@@ -120,6 +119,7 @@ buildlibusb ()
 
       ./configure --prefix=$TOOLCHAIN/sysroot/usr/local \
       --host=arm-linux-androideabi \
+      --enable-udev=no \
       --enable-shared=no
       
       make 
