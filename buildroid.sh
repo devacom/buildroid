@@ -49,7 +49,7 @@ clear
 basetoolchain () {
     export TOOLCHAIN=/android-toolchain
     export CROSS_SYSROOT=$TOOLCHAIN/sysroot
-    export PATH="$TOOLCHAIN/bin:$PATH"
+    export PATH=$TOOLCHAIN/bin:$PATH
     export TOOL=arm-linux-androideabi
     export CC=$TOOLCHAIN/bin/${TOOL}-gcc
     export CXX=$TOOLCHAIN/bin/${TOOL}-g++
