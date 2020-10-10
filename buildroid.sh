@@ -1,5 +1,6 @@
 #!/usr/bin/bash
-# This Script is created to help no developer making some binaries targeting Android devices.
+# Buildroid alpha
+# This Script is created to help no developer for making some binaries targeting Android devices.
 # Created by @devacom
 # Get current path
 dir=$(pwd -P)
