@@ -86,7 +86,7 @@ buildopenssl ()
      no-unit-test
      
      make
-     sudo make install
+     sudo make install_sw
 }
 
 buildhttp2 ()
