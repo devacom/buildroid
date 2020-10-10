@@ -47,25 +47,23 @@ CHOICE=$(dialog --clear \
 clear
 
 basetoolchain () {
-export TOOLCHAIN=/android-toolchain
-export CROSS_SYSROOT=$TOOLCHAIN/sysroot
-export PATH=$TOOLCHAIN/bin:$PATH
-export TOOL=arm-linux-androideabi
-export CC=$TOOLCHAIN/bin/${TOOL}-gcc
-export CXX=$TOOLCHAIN/bin/${TOOL}-g++
-export LINK=${CXX}
-export LD=$TOOLCHAIN/bin/${TOOL}-ld
-export AR=$TOOLCHAIN/bin/${TOOL}-ar
-export RANLIB=$TOOLCHAIN/bin/${TOOL}-ranlib
-export STRIP=$TOOLCHAIN/bin/${TOOL}-strip
-export ARCH_FLAGS="-mthumb"
+    export TOOLCHAIN=/android-toolchain
+    export CROSS_SYSROOT=$TOOLCHAIN/sysroot
+    export PATH="$TOOLCHAIN/bin:$PATH"
+    export TOOL=arm-linux-androideabi
+    export CC=$TOOLCHAIN/bin/${TOOL}-gcc
+    export CXX=$TOOLCHAIN/bin/${TOOL}-g++
+    export LINK=${CXX}
+    export LD=$TOOLCHAIN/bin/${TOOL}-ld
+    export AR=$TOOLCHAIN/bin/${TOOL}-ar
+    export RANLIB=$TOOLCHAIN/bin/${TOOL}-ranlib
+    export STRIP=$TOOLCHAIN/bin/${TOOL}-strip
+    export ARCH_FLAGS="-mthumb"
 }
-
-case $CHOICE in
-     1)
-     # build openssl
+buildopenssl ()
+{
      echo "OpenSSL Android Build Tool"
-     read -p "Please set source code location: " fpath
+     read -p "Please enter OpenSSL source code location: " fpath
      cd $fpath
      echo "configuring OpenSSL for ARM android..."
      basetoolchain
@@ -88,13 +86,12 @@ case $CHOICE in
      no-unit-test
      
      make
-     make install
-        ;;
-#---------------------------------------------
-     2)
-     # build nghhtp2	
-     
-     read -p "Please set source code location: " fpath
+     sudo make install
+}
+
+buildhttp2 ()
+{
+     read -p "Please enter nghhtp2 source code location: " fpath
      cd $fpath
      basetoolchain
      export CPPFLAGS="-fPIE -I$TOOLCHAIN/sysroot/usr/include"
@@ -108,12 +105,27 @@ case $CHOICE in
      --prefix="$TOOLCHAIN/sysroot/usr/local"
      make
      sudo make install
+}
+
+case $CHOICE in
+     1)
+     # build openssl
+    buildopenssl
+        ;;
+#---------------------------------------------
+     2)
+     # build nghhtp2	
+     buildhttp2
         ;;
 #---------------------------------------------
      3)
      # build curl
      echo "Curl Android Build Tool"
-     read -p "Please set source code location: " fpath
+     echo -e "\033[1;31m\033[47mNote: In order to build Curl, OpenSSL and nghttp2 source code ard needed."
+     echo -e "\033[0m"
+     buildopenssl
+     buildhttp2
+     read -p "Please enter Curl source code location: " fpath
      cd $fpath
      echo "configuring Curl for android..."
      basetoolchain
@@ -144,15 +156,14 @@ case $CHOICE in
       4)
       echo "libusb Android Build Tool"
       echo "This tool still under revision for more info contact @devacom"
-      read -p "Please set source code location: " fpath
+      read -p "Please enter LibUSB source code location: " fpath
       cd $fpath
       echo "configuring libusb for android..."
       basetoolchain
       #export CFLAGS="-fPIE -fPIC"
       export CFLAGS="-fPIE fPIC"
       export LDFLAGS="-pie"
-      ./configure --prefix=$TOOLCHAIN/sysroot/usr/local \
-      --host=arm-linux-androideabi \
+      ./configure --prefix=$TOOLCHAIN/sysroot/usr/local --host=arm-linux-androideabi \
       --enable-shared=no
       make 
       sudo make install
@@ -160,7 +171,7 @@ case $CHOICE in
 #--------------------------------------
       5)
       echo "OSCam Android Build Tool"
-      read -p "Please set source code location: " fpath
+      read -p "Please enter OSCam source code location: " fpath
         cd $fpath
         echo "Creating oscam.."
         ./config.sh --gui
