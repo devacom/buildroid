@@ -2,15 +2,26 @@
 # Buildroid alpha
 # This Script is created to help no developer for making some binaries targeting Android devices.
 # Created by @devacom
-# Get current path
 
-read -p "Please enter your NDK toolchain location: " fpath
-cd $fpath/build/tools
-# ex: /home/uuser/project/android-ndk-r14b/build/tools
-export TOOLCHAIN=/android-toolchain
-read -p "Please enter your api level (ex: for lollipop 5.0 – 5.1.1 api is 21 and 22): " apilevel
-sudo ./make_standalone_toolchain.py --arch arm --api $apilevel --install-dir /android-toolchain --force
-        
+echo "Note:"
+echo "Android toolchain is needed to be installed on your machine."
+echo "If this is the first time to use this script or you want to change the targeted android choose y"
+read -p "Do you want to set your android toolchan? [y/n] " response
+   case "$response" in
+     [yY][eE][sS]|[yY]) 
+     read -p "Please enter your NDK toolchain location: " fpath
+     cd $fpath/build/tools
+     # ex: /home/uuser/project/android-ndk-r14b/build/tools
+     export TOOLCHAIN=/android-toolchain
+     read -p "Please enter your api level (ex: for lollipop 5.0 – 5.1.1 api is 21 and 22): " apilevel
+     sudo ./make_standalone_toolchain.py --arch arm --api $apilevel --install-dir /android-toolchain --force
+     ;;
+     *)
+     echo "Installation is aborted by user, nothing is done".
+     ;;
+   esac
+
+
 dir=$(pwd -P)
 HEIGHT=12
 WIDTH=50
