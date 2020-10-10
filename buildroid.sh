@@ -11,7 +11,7 @@ read -p "Do you want to set your android toolchan? [y/n] " response
      [yY][eE][sS]|[yY]) 
      read -p "Please enter your NDK toolchain location: " fpath
      cd $fpath/build/tools
-     # ex: /home/uuser/project/android-ndk-r14b/build/tools
+     # ex: /home/username/android-ndk-r14b/
      export TOOLCHAIN=/android-toolchain
      read -p "Please enter your api level (ex: for lollipop 5.0 – 5.1.1 api is 21 and 22): " apilevel
      sudo ./make_standalone_toolchain.py --arch arm --api $apilevel --install-dir /android-toolchain --force
