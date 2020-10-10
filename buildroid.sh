@@ -143,6 +143,7 @@ case $CHOICE in
 #-----------------------------------------------
       4)
       echo "libusb Android Build Tool"
+      echo "This tool still under revision for more info contact @devacom"
       read -p "Please set source code location: " fpath
       cd $fpath
       echo "configuring libusb for android..."
