@@ -12,9 +12,12 @@ OSCam
 
 nghttp2
 
-This tool has configured to make cross compiling using this variable.
+This tool has configured to make cross compiling using this variables.
+
 TOOLCHAIN=/android-toolchain
+
 CROSS_SYSROOT=$TOOLCHAIN/sysroot
+
 PATH=$TOOLCHAIN/bin:$PATH
 
 That mean the installed binary or lib will be found in /android-toolchain/sysroot
