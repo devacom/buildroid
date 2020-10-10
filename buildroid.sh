@@ -178,7 +178,7 @@ case $CHOICE in
 #--------------------------------------
       5)
       echo "OSCam Android Build Tool"
-      read -p "Please enter OSCam source code location: " fpath
+      read -p "Please enter OSCam source code location: " oscampath
         cd $fpath
         echo "Creating oscam.."
         ./config.sh --gui
@@ -186,6 +186,7 @@ case $CHOICE in
         case "$response" in
           [yY][eE][sS]|[yY]) 
           buildlibusb
+          cd $oscampath
           make static EXTRA_FLAGS="-pie" LIB_RT= LIB_PTHREAD= USE_LIBUSB=1 CROSS=/android-toolchain/bin/arm-linux-androideabi-
           ;;
           *)
