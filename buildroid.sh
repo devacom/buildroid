@@ -107,6 +107,23 @@ buildhttp2 ()
      sudo make install
 }
 
+buildlibusb ()
+{
+      echo "libusb Android Build Tool"
+      echo "This tool still under revision for more info contact @devacom"
+      read -p "Please enter LibUSB source code location: " fpath
+      cd $fpath
+      echo "configuring libusb for android..."
+      basetoolchain
+      #export CFLAGS="-fPIE -fPIC"
+      export CFLAGS="-fPIE fPIC"
+      export LDFLAGS="-pie"
+      ./configure --prefix=$TOOLCHAIN/sysroot/usr/local --host=arm-linux-androideabi \
+      --enable-shared=no
+      make 
+      sudo make install
+}
+
 case $CHOICE in
      1)
      # build openssl
@@ -154,19 +171,7 @@ case $CHOICE in
         ;;
 #-----------------------------------------------
       4)
-      echo "libusb Android Build Tool"
-      echo "This tool still under revision for more info contact @devacom"
-      read -p "Please enter LibUSB source code location: " fpath
-      cd $fpath
-      echo "configuring libusb for android..."
-      basetoolchain
-      #export CFLAGS="-fPIE -fPIC"
-      export CFLAGS="-fPIE fPIC"
-      export LDFLAGS="-pie"
-      ./configure --prefix=$TOOLCHAIN/sysroot/usr/local --host=arm-linux-androideabi \
-      --enable-shared=no
-      make 
-      sudo make install
+      buildlibusb
         ;;
 #--------------------------------------
       5)
@@ -178,6 +183,7 @@ case $CHOICE in
         read -p "do you want to add libusb support? [y/n] " response
         case "$response" in
           [yY][eE][sS]|[yY]) 
+          buildlibusb
           make static EXTRA_FLAGS="-pie" LIB_RT= LIB_PTHREAD= USE_LIBUSB=1 CROSS=/android-toolchain/bin/arm-linux-androideabi-
           ;;
           *)
