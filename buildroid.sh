@@ -3,6 +3,14 @@
 # This Script is created to help no developer for making some binaries targeting Android devices.
 # Created by @devacom
 # Get current path
+
+read -p "Please enter your NDK toolchain location: " fpath
+cd $fpath/build/tools
+# ex: /home/uuser/project/android-ndk-r14b/build/tools
+export TOOLCHAIN=/android-toolchain
+read -p "Please enter your api level (ex: for lollipop 5.0 – 5.1.1 api is 21 and 22): " apilevel
+sudo ./make_standalone_toolchain.py --arch arm --api $apilevel --install-dir /android-toolchain --force
+        
 dir=$(pwd -P)
 HEIGHT=12
 WIDTH=50
@@ -10,11 +18,11 @@ CHOICE_HEIGHT=6
 BACKTITLE="Android ARM Cross Compilation Tool"
 TITLE="Menu"
 MENU="Choose one of the following options:"
-OPTIONS=(1 "openssl"
+OPTIONS=(1 "OpenSSL"
          2 "nghttp2"
-         3 "curl"
+         3 "Curl"
          4 "libusb"
-         5 "oscam")
+         5 "OSCam")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -138,7 +146,7 @@ case $CHOICE in
         ;;
 #--------------------------------------
       5)
-      echo "oscam Android Build Tool"
+      echo "OSCam Android Build Tool"
       read -p "Please set source code location: " fpath
         cd $fpath
         echo "Creating oscam.."
