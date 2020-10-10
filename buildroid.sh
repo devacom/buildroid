@@ -114,17 +114,9 @@ buildlibusb ()
       read -p "Please enter LibUSB source code location: " fpath
       cd $fpath
       echo "configuring libusb for android..."
-      export TOOLCHAIN=/android-toolchain
-      export CROSS_SYSROOT=$TOOLCHAIN/sysroot
-      export PATH=$TOOLCHAIN/bin:$PATH
-      export TOOL=arm-linux-androideabi
-      export AR=$TOOLCHAIN/bin/$TOOL-ar
-      export AS=$TOOLCHAIN/bin/$TOOL-as
-      export CC=$TOOLCHAIN/bin/$TOOL-clang
-      export CXX=$TOOLCHAIN/bin/$TOOL-clang++
-      export LD=$TOOLCHAIN/bin/$TOOL-ld
-      export RANLIB=$TOOLCHAIN/bin/$TOOL-ranlib
-      export STRIP=$TOOLCHAIN/bin/$TOOL-strip
+      basetoolchain
+      export CPPFLAGS="-fPIE -I$TOOLCHAIN/sysroot/usr/include"
+      export LDFLAGS="-fPIE -pie -I$TOOLCHAIN/sysroot/usr/lib"
 
       ./configure --prefix=$TOOLCHAIN/sysroot/usr/local \
       --host=arm-linux-androideabi \
