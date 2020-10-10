@@ -3,9 +3,9 @@
 # This Script is created to help no developer for making some binaries targeting Android devices.
 # Created by @devacom
 
-echo "Note:"
-echo "Android toolchain is needed to be installed on your machine."
-echo "If this is the first time to use this script or you want to change the targeted android choose y"
+echo -e "\033[0;33mNote:"
+echo -e "\033[0;33mAndroid toolchain is needed to be installed on your machine."
+echo -e "\033[0;33mIf this is the first time to use this script or you want to change the targeted android choose y"
 read -p "Do you want to set your android toolchan? [y/n] " response
    case "$response" in
      [yY][eE][sS]|[yY]) 
