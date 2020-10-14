@@ -67,13 +67,10 @@ buildopenssl ()
      cd $fpath
      echo "configuring OpenSSL for ARM android..."
      basetoolchain
-     export ARCH_LINK=
+     export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
      export CFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64"
      export CXXFLAGS="${CFLAGS} -frtti -fexceptions"
-     export LDFLAGS="${ARCH_LINK}"
-     export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
-     export CFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64"
-     export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
+     #export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
      export LDFLAGS="${ARCH_LINK}"
      
      ./Configure android-arm \
