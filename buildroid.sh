@@ -34,7 +34,9 @@ OPTIONS=(1 "OpenSSL"
          2 "nghttp2"
          3 "Curl"
          4 "libusb"
-         5 "OSCam")
+         5 "OSCam"
+         6 "MultiCS"
+         7 "generic")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -107,6 +109,7 @@ buildhttp2 ()
 buildlibusb ()
 {
       echo "libusb Android Build Tool"
+      echo "This tool still under revision for more info contact @devacom"
       read -p "Please enter LibUSB source code location: " fpath
       cd $fpath
       echo "configuring libusb for android..."
@@ -176,7 +179,7 @@ case $CHOICE in
       5)
       echo "OSCam Android Build Tool"
       read -p "Please enter OSCam source code location: " oscampath
-        cd $fpath
+        cd $oscampath
         echo "Creating oscam.."
         ./config.sh --gui
         read -p "do you want to add libusb support? [y/n] " response
@@ -186,10 +189,39 @@ case $CHOICE in
           cd $oscampath
           make static EXTRA_FLAGS="-pie" LIB_RT= LIB_PTHREAD= USE_LIBUSB=1 CROSS=/android-toolchain/bin/arm-linux-androideabi-
           ;;
+          
           *)
           make static EXTRA_FLAGS="-pie" LIB_RT= LIB_PTHREAD= CROSS=/android-toolchain/bin/arm-linux-androideabi-
           ;;
         esac
-        echo "done."
-      ;;       
+        ;;
+        
+       6)
+       echo "OSCam Android Build Tool"
+       read -p "Please enter OSCam source code location: " path
+       cd $path
+       mkdir arm-android
+       make target =arm-android
+       echo "done."
+      ;;  
+       
+      7)
+      echo "lshw Android Build Tool"
+      echo "This tool still under revision for more info contact @devacom"
+      read -p "Please enter Lshw source code location: " fpath
+      cd $fpath
+      echo "configuring lshw for android..."
+      basetoolchain
+      export CPPFLAGS="-fPIE -I$TOOLCHAIN/sysroot/usr/include"
+      export LDFLAGS="-fPIE -pie -I$TOOLCHAIN/sysroot/usr/lib"
+
+      ./configure --prefix=$TOOLCHAIN/sysroot/usr/local \
+      --host=arm-linux-androideabi \
+      --enable-udev=no \
+      --enable-shared=no
+      
+      make 
+      sudo make install
+      ;;
+          
 esac
